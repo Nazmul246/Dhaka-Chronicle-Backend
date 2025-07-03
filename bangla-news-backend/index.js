@@ -213,5 +213,5 @@ app.get("/news/full", async (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`🚀 News back-end running at http://localhost:${port}`);
+  console.log("🌐 Live backend (Railway): https://dhaka-chronicle-backend-production.up.railway.app");
 });
