@@ -19,7 +19,6 @@ app.use(cors());
 const rssFeeds = {
   binodon: [
     "https://www.prothomalo.com/feed",
-    "https://www.kalerkantho.com/rss.xml",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
@@ -27,7 +26,6 @@ const rssFeeds = {
   ],
   kheladhula: [
     "https://www.prothomalo.com/feed",
-    "https://www.kalerkantho.com/rss.xml",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
@@ -35,7 +33,6 @@ const rssFeeds = {
   ],
   topnews: [
     "https://www.prothomalo.com/feed",
-    "https://www.kalerkantho.com/rss.xml",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
@@ -163,6 +160,29 @@ app.get("/news/bydate", (req, res) => {
   }
 
   res.json({ news: filteredNews });
+});
+
+app.get("/news/search", (req, res) => {
+  const { q } = req.query;
+  if (!q) return res.status(400).json({ error: "Missing search query" });
+
+  const query = q.toLowerCase();
+  const results = [];
+
+  for (const category of ["binodon", "kheladhula", "topnews"]) {
+    const matched = newsCache[category].filter((item) => {
+      return (
+        item.title?.toLowerCase().includes(query) ||
+        item.summary?.toLowerCase().includes(query)
+      );
+    });
+
+    results.push(...matched.map((item) => ({ ...item, category })));
+  }
+
+  console.log("Query:", query);
+  console.log("Matched Results:", results.length);
+  res.json({ news: results });
 });
 
 app.get("/news/all", (req, res) => {
