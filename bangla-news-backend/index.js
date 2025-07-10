@@ -66,14 +66,20 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
     "বিনোদন", "চলচ্চিত্র", "তারকা", "সিনেমা", "নাটক", "গান",
     "অভিনেতা", "অভিনেত্রী", "অভিনয়", "শুটিং", "গায়ক", "গায়িকা",
     "মিউজিক", "ফিল্ম", "টেলিভিশন", "নায়ক", "নায়িকা", "সেলিব্রিটি",
-    "বায়োপিক", "ড্রামা", "কমেডি", "ওয়েব সিরিজ", "ওটিটি", "স্টার", "আনন্দ"
+    "বায়োপিক", "ড্রামা", "কমেডি", "ওয়েব সিরিজ", "ওটিটি", "স্টার", "আনন্দ", 
+    "entertainment", "film", "actor", "actress", "superstar", "television", "TV",
+    "music", "celebrity", "celebrities", "ott", "bollywood", "hollywood", "web series", "star", 
+    "biopic", "drama"
   ];
 
   const khelaKeywords = [
     "খেলা", "ক্রিকেট", "ফুটবল", "ব্রাজিল", "আর্জেন্টিনা", "বিশ্বকাপ", "টি-টোয়েন্টি",
     "ওয়ানডে", "টেস্ট", "সাকিব", "তামিম", "মুশফিক", "বাংলাদেশ দল", "ম্যাচ", "গোল",
     "ব্যাটসম্যান", "বোলার", "ফিফা", "স্পোর্টস", "ক্রীড়া", "অলিম্পিক", "চ্যাম্পিয়নস লিগ",
-    "পিএসজি", "রিয়াল মাদ্রিদ", "বার্সেলোনা", "ঢাকা লিগ", "বিপিএল"
+    "পিএসজি", "রিয়াল মাদ্রিদ", "বার্সেলোনা", "ঢাকা লিগ", "বিপিএল",
+    "sports", "cricket", "football", "kabaddi", "baseball", "basketball", "Brazil", "Argentina",
+    "Batsman", "Bowler", "Goalkeeper", "fifa", "shakib", "tamim", "mushfiq", "Olympics", "match", "goal",
+    "PSG", "barcelona", "real madrid", "inter", "BPL", "BBL", "test", "ODI", "T20"
   ];
 
   for (const feedUrl of feeds) {
