@@ -19,24 +19,36 @@ app.use(cors());
 const rssFeeds = {
   binodon: [
     "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.amarbanglabd.com/feed/entertainment",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss/search?q=%E0%A6%AC%E0%A6%BF%E0%A6%A8%E0%A7%8B%E0%A6%A6%E0%A6%A8&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml"
   ],
   kheladhula: [
     "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.amarbanglabd.com/feed/sports",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss/search?q=%E0%A6%96%E0%A7%87%E0%A6%B2%E0%A6%BE%E0%A6%A7%E0%A7%81%E0%A6%B2%E0%A6%BE&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml"
   ],
   topnews: [
     "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.amarbanglabd.com/feeds",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss?hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml"
   ],
 };
 
