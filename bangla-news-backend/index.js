@@ -62,6 +62,33 @@ let newsCache = {
   lastUpdated: null,
 };
 
+// Helper to identify direct category feed
+function isDirectCategoryFeedUrl(feedUrl, categoryKey) {
+  const lowerUrl = feedUrl.toLowerCase();
+
+  if (categoryKey === "binodon") {
+    return (
+      lowerUrl.includes("entertainment") ||
+      lowerUrl.includes("binodon") ||
+      lowerUrl.includes("arts") ||
+      lowerUrl.includes("culture") ||
+      lowerUrl.includes("/feed/entertainment")
+    );
+  }
+
+  if (categoryKey === "kheladhula") {
+    return (
+      lowerUrl.includes("sports") ||
+      lowerUrl.includes("khela") ||
+      lowerUrl.includes("cricket") ||
+      lowerUrl.includes("football") ||
+      lowerUrl.includes("/feed/sports")
+    );
+  }
+
+  return false;
+}
+
 async function fetchCategoryFeeds(feeds, categoryKey = "") {
   const allFeeds = [];
 
@@ -110,12 +137,7 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
 
       let filteredItems = items;
 
-      // ⚠️ Check if URL has clear category — then skip keyword filtering
-      const isDirectCategoryFeed =
-        (categoryKey === "binodon" &&
-          /entertainment|binodon|arts|culture/i.test(feedUrl)) ||
-        (categoryKey === "kheladhula" &&
-          /sports|khela|cricket|football/i.test(feedUrl));
+      const isDirectCategoryFeed = isDirectCategoryFeedUrl(feedUrl, categoryKey);
 
       if (!isDirectCategoryFeed) {
         if (categoryKey === "binodon") {
@@ -164,7 +186,7 @@ async function fetchAndCacheNews() {
   console.log("✅ News cached at", newsCache.lastUpdated.toLocaleString());
 }
 
-cron.schedule("0 6 * * *", fetchAndCacheNews);
+cron.schedule("0 6 * * *", fetchAndCacheNews); // Runs daily at 6 AM
 
 fetchAndCacheNews();
 
