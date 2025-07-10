@@ -156,9 +156,9 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
 async function fetchAndCacheNews() {
   console.log("🔄 Fetching news from RSS feeds…");
 
-  newsCache.binodon = await fetchCategoryFeeds(rssFeeds.binodon, "binodon");
-  newsCache.kheladhula = await fetchCategoryFeeds(rssFeeds.kheladhula, "kheladhula");
-  newsCache.topnews = await fetchCategoryFeeds(rssFeeds.topnews, "topnews");
+  newsCache.binodon = (await fetchCategoryFeeds(rssFeeds.binodon, "binodon")).map(item => ({ ...item, category: "binodon" }));
+  newsCache.kheladhula = (await fetchCategoryFeeds(rssFeeds.kheladhula, "kheladhula")).map(item => ({ ...item, category: "kheladhula" }));
+  newsCache.topnews = (await fetchCategoryFeeds(rssFeeds.topnews, "topnews")).map(item => ({ ...item, category: "topnews" }));  
   newsCache.lastUpdated = new Date();
 
   console.log("✅ News cached at", newsCache.lastUpdated.toLocaleString());
