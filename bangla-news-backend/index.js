@@ -195,22 +195,22 @@ app.get("/news/bydate", (req, res) => {
   if (!date) return res.status(400).json({ error: "Missing date parameter" });
 
   const requestedDate = new Date(date);
-  if (isNaN(requestedDate)) return res.status(400).json({ error: "Invalid date format" });
+if (isNaN(requestedDate)) return res.status(400).json({ error: "Invalid date format" });
 
-  const filteredNews = [];
-  for (const category of ["binodon", "kheladhula", "topnews"]) {
-    const items = newsCache[category].filter((item) => {
-      if (!item.pubDate) return false;
-      const itemDate = new Date(item.pubDate);
-      return (
-        itemDate.getFullYear() === requestedDate.getFullYear() &&
-        itemDate.getMonth() === requestedDate.getMonth() &&
-        itemDate.getDate() === requestedDate.getDate()
-      );
-    });
-    filteredNews.push(...items.map((item) => ({ ...item, category })));
-  }
+const targetDateString = requestedDate.toISOString().split("T")[0]; // 'YYYY-MM-DD'
 
+const filteredNews = [];
+
+for (const category of ["binodon", "kheladhula", "topnews"]) {
+  const items = newsCache[category].filter((item) => {
+    if (!item.pubDate) return false;
+    const pubDate = new Date(item.pubDate);
+    const pubDateString = pubDate.toISOString().split("T")[0]; // 'YYYY-MM-DD'
+    return pubDateString === targetDateString;
+  });
+
+  filteredNews.push(...items.map((item) => ({ ...item, category })));
+}
   res.json({ news: filteredNews });
 });
 
