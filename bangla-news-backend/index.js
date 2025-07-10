@@ -22,6 +22,7 @@ const rssFeeds = {
     "https://www.thedailystar.net/frontpage/rss.xml",
     "https://www.kalerkantho.com/rss.xml",
     "https://www.amarbanglabd.com/feed/entertainment",
+    "https://www.tbsnews.net/rss.xml",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
@@ -33,6 +34,7 @@ const rssFeeds = {
     "https://www.thedailystar.net/frontpage/rss.xml",
     "https://www.kalerkantho.com/rss.xml",
     "https://www.amarbanglabd.com/feed/sports",
+    "https://www.tbsnews.net/sports/rss.xml",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
@@ -44,6 +46,7 @@ const rssFeeds = {
     "https://www.thedailystar.net/frontpage/rss.xml",
     "https://www.kalerkantho.com/rss.xml",
     "https://www.amarbanglabd.com/feeds",
+    "https://www.tbsnews.net/top-news/rss.xml",
     "https://www.banglatribune.com/feed/",
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
@@ -107,16 +110,25 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
 
       let filteredItems = items;
 
-      if (categoryKey === "binodon") {
-        filteredItems = items.filter((item) =>
-          binodonKeywords.some((kw) => item.title.includes(kw))
-        );
-      }
+      // ⚠️ Check if URL has clear category — then skip keyword filtering
+      const isDirectCategoryFeed =
+        (categoryKey === "binodon" &&
+          /entertainment|binodon|arts|culture/i.test(feedUrl)) ||
+        (categoryKey === "kheladhula" &&
+          /sports|khela|cricket|football/i.test(feedUrl));
 
-      if (categoryKey === "kheladhula") {
-        filteredItems = items.filter((item) =>
-          khelaKeywords.some((kw) => item.title.includes(kw))
-        );
+      if (!isDirectCategoryFeed) {
+        if (categoryKey === "binodon") {
+          filteredItems = items.filter((item) =>
+            binodonKeywords.some((kw) => item.title?.toLowerCase().includes(kw.toLowerCase()))
+          );
+        }
+
+        if (categoryKey === "kheladhula") {
+          filteredItems = items.filter((item) =>
+            khelaKeywords.some((kw) => item.title?.toLowerCase().includes(kw.toLowerCase()))
+          );
+        }
       }
 
       allFeeds.push(filteredItems);
