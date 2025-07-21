@@ -159,18 +159,21 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
     }
   }
 
-  if (categoryKey === "topnews") {
-    const maxLen = Math.max(...allFeeds.map((list) => list.length));
-    const interleaved = [];
+      if (categoryKey === "topnews") {
+      // Flatten and optionally remove duplicates by link
+      const flatItems = allFeeds.flat();
+      const seenLinks = new Set();
+      const uniqueItems = [];
 
-    for (let i = 0; i < maxLen; i++) {
-      for (const feedItems of allFeeds) {
-        if (feedItems[i]) interleaved.push(feedItems[i]);
+      for (const item of flatItems) {
+        if (!seenLinks.has(item.link)) {
+          uniqueItems.push(item);
+          seenLinks.add(item.link);
+        }
       }
-    }
 
-    return interleaved;
-  }
+      return uniqueItems;
+    }
 
   return allFeeds.flat();
 }
