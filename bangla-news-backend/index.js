@@ -27,7 +27,10 @@ const rssFeeds = {
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss/search?q=%E0%A6%AC%E0%A6%BF%E0%A6%A8%E0%A7%8B%E0%A6%A6%E0%A6%A8&hl=bn&gl=BD&ceid=BD:bn",
-    "https://www.banglanews24.com/rss/rss.xml"
+    "https://www.banglanews24.com/rss/rss.xml",
+    // Add more entertainment-specific feeds
+    "https://www.prothomalo.com/entertainment/rss",
+    "https://www.thedailystar.net/entertainment/rss.xml"
   ],
   kheladhula: [
     "https://www.prothomalo.com/feed",
@@ -39,7 +42,10 @@ const rssFeeds = {
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss/search?q=%E0%A6%96%E0%A7%87%E0%A6%B2%E0%A6%BE%E0%A6%A7%E0%A7%81%E0%A6%B2%E0%A6%BE&hl=bn&gl=BD&ceid=BD:bn",
-    "https://www.banglanews24.com/rss/rss.xml"
+    "https://www.banglanews24.com/rss/rss.xml",
+    // Add more sports-specific feeds
+    "https://www.prothomalo.com/sports/rss",
+    "https://www.thedailystar.net/sports/rss.xml"
   ],
   topnews: [
     "https://www.prothomalo.com/feed",
@@ -51,7 +57,10 @@ const rssFeeds = {
     "https://www.bd24live.com/bangla/feed/",
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss?hl=bn&gl=BD&ceid=BD:bn",
-    "https://www.banglanews24.com/rss/rss.xml"
+    "https://www.banglanews24.com/rss/rss.xml",
+    // Add more general news feeds
+    "https://www.prothomalo.com/bangladesh/rss",
+    "https://www.thedailystar.net/news/rss.xml"
   ],
 };
 
@@ -89,17 +98,20 @@ function isDirectCategoryFeedUrl(feedUrl, categoryKey) {
   return false;
 }
 
-async function fetchCategoryFeeds(feeds, categoryKey = "") {
-  const allFeeds = [];
+// Enhanced keyword matching
+function matchesCategory(item, categoryKey) {
+  const title = item.title?.toLowerCase() || "";
+  const summary = item.summary?.toLowerCase() || "";
+  const content = title + " " + summary;
 
   const binodonKeywords = [
     "বিনোদন", "চলচ্চিত্র", "তারকা", "সিনেমা", "নাটক", "গান",
     "অভিনেতা", "অভিনেত্রী", "অভিনয়", "শুটিং", "গায়ক", "গায়িকা",
     "মিউজিক", "ফিল্ম", "টেলিভিশন", "নায়ক", "নায়িকা", "সেলিব্রিটি",
     "বায়োপিক", "ড্রামা", "কমেডি", "ওয়েব সিরিজ", "ওটিটি", "স্টার", "আনন্দ", 
-    "entertainment", "film", "actor", "actress", "superstar", "television", "TV",
+    "entertainment", "film", "actor", "actress", "superstar", "television", "tv",
     "music", "celebrity", "celebrities", "ott", "bollywood", "hollywood", "web series", "star", 
-    "biopic", "drama"
+    "biopic", "drama", "cinema", "movie", "show", "series"
   ];
 
   const khelaKeywords = [
@@ -107,16 +119,36 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
     "ওয়ানডে", "টেস্ট", "সাকিব", "তামিম", "মুশফিক", "বাংলাদেশ দল", "ম্যাচ", "গোল",
     "ব্যাটসম্যান", "বোলার", "ফিফা", "স্পোর্টস", "ক্রীড়া", "অলিম্পিক", "চ্যাম্পিয়নস লিগ",
     "পিএসজি", "রিয়াল মাদ্রিদ", "বার্সেলোনা", "ঢাকা লিগ", "বিপিএল",
-    "sports", "cricket", "football", "kabaddi", "baseball", "basketball", "Brazil", "Argentina",
-    "Batsman", "Bowler", "Goalkeeper", "fifa", "shakib", "tamim", "mushfiq", "Olympics", "match", "goal",
-    "PSG", "barcelona", "real madrid", "inter", "BPL", "BBL", "test", "ODI", "T20"
+    "sports", "cricket", "football", "soccer", "kabaddi", "baseball", "basketball", "brazil", "argentina",
+    "batsman", "bowler", "goalkeeper", "fifa", "shakib", "tamim", "mushfiq", "olympics", "match", "goal",
+    "psg", "barcelona", "real madrid", "inter", "bpl", "bbl", "test", "odi", "t20", "premier league",
+    "champions league", "world cup", "tournament", "team", "player", "coach", "league"
   ];
+
+  if (categoryKey === "binodon") {
+    return binodonKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+  
+  if (categoryKey === "kheladhula") {
+    return khelaKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+
+  return true; // For topnews, include everything
+}
+
+async function fetchCategoryFeeds(feeds, categoryKey = "") {
+  const allFeeds = [];
+  const maxItemsPerFeed = 50; // Increase this to get more items
 
   for (const feedUrl of feeds) {
     try {
+      console.log(`Fetching: ${feedUrl}`);
       const feed = await parser.parseURL(feedUrl);
 
-      const items = feed.items.map((item) => {
+      // Get more items from each feed
+      const feedItems = feed.items.slice(0, maxItemsPerFeed);
+
+      const items = feedItems.map((item) => {
         const titleParts = item.title?.split(" - ") || [];
         const cleanTitle = titleParts[0]?.trim() || item.title;
         const sourceFromTag = item.source?.["#"]?.trim();
@@ -132,71 +164,97 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
             (item["media:content"] && item["media:content"]["$"]?.url) ||
             null,
           summary: item.contentSnippet || item.content || item.summary || "",
+          feedUrl: feedUrl // Add feed URL for debugging
         };
       });
 
       let filteredItems = items;
 
+      // Only filter if it's not a direct category feed
       const isDirectCategoryFeed = isDirectCategoryFeedUrl(feedUrl, categoryKey);
 
-      if (!isDirectCategoryFeed) {
-        if (categoryKey === "binodon") {
-          filteredItems = items.filter((item) =>
-            binodonKeywords.some((kw) => item.title?.toLowerCase().includes(kw.toLowerCase()))
-          );
-        }
-
-        if (categoryKey === "kheladhula") {
-          filteredItems = items.filter((item) =>
-            khelaKeywords.some((kw) => item.title?.toLowerCase().includes(kw.toLowerCase()))
-          );
-        }
+      if (!isDirectCategoryFeed && categoryKey !== "topnews") {
+        filteredItems = items.filter((item) => matchesCategory(item, categoryKey));
       }
 
-      allFeeds.push(filteredItems);
+      console.log(`${feedUrl}: ${items.length} total, ${filteredItems.length} filtered`);
+      allFeeds.push(...filteredItems); // Use spread operator to flatten immediately
+
     } catch (err) {
       console.error(`⚠️  Failed to fetch feed: ${feedUrl}`, err.message);
     }
   }
 
-      if (categoryKey === "topnews") {
-      // Flatten all items from all feeds
-      const flatItems = allFeeds.flat();
+  // Enhanced deduplication - only remove exact duplicates
+  const seenLinks = new Set();
+  const seenTitles = new Set();
+  const uniqueItems = [];
 
-      // Remove duplicates based on link
-      const seenLinks = new Set();
-      const uniqueItems = [];
-
-      for (const item of flatItems) {
-        if (!seenLinks.has(item.link)) {
-          uniqueItems.push(item);
-          seenLinks.add(item.link);
-        }
-      }
-
-      // Optional: sort by pubDate descending
-      uniqueItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-
-      return uniqueItems;
+  for (const item of allFeeds) {
+    // Create a normalized title for comparison
+    const normalizedTitle = item.title?.toLowerCase().trim();
+    
+    // Skip if we've seen the exact same link
+    if (seenLinks.has(item.link)) {
+      continue;
+    }
+    
+    // Skip if we've seen very similar title (but be less strict)
+    if (normalizedTitle && seenTitles.has(normalizedTitle)) {
+      continue;
     }
 
+    uniqueItems.push(item);
+    seenLinks.add(item.link);
+    if (normalizedTitle) {
+      seenTitles.add(normalizedTitle);
+    }
+  }
 
-  return allFeeds.flat();
+  // Sort by publication date (newest first)
+  uniqueItems.sort((a, b) => {
+    const dateA = new Date(a.pubDate);
+    const dateB = new Date(b.pubDate);
+    return dateB - dateA;
+  });
+
+  console.log(`Final ${categoryKey} count: ${uniqueItems.length}`);
+  return uniqueItems;
 }
 
 async function fetchAndCacheNews() {
   console.log("🔄 Fetching news from RSS feeds…");
 
-  newsCache.binodon = (await fetchCategoryFeeds(rssFeeds.binodon, "binodon")).map(item => ({ ...item, category: "binodon" }));
-  newsCache.kheladhula = (await fetchCategoryFeeds(rssFeeds.kheladhula, "kheladhula")).map(item => ({ ...item, category: "kheladhula" }));
-  newsCache.topnews = (await fetchCategoryFeeds(rssFeeds.topnews, "topnews")).map(item => ({ ...item, category: "topnews" }));  
-  newsCache.lastUpdated = new Date();
+  try {
+    // Fetch all categories in parallel for better performance
+    const [binodonNews, kheladhulaNews, topnews] = await Promise.all([
+      fetchCategoryFeeds(rssFeeds.binodon, "binodon"),
+      fetchCategoryFeeds(rssFeeds.kheladhula, "kheladhula"),
+      fetchCategoryFeeds(rssFeeds.topnews, "topnews")
+    ]);
 
-  console.log("✅ News cached at", newsCache.lastUpdated.toLocaleString());
+    newsCache.binodon = binodonNews.map(item => ({ ...item, category: "binodon" }));
+    newsCache.kheladhula = kheladhulaNews.map(item => ({ ...item, category: "kheladhula" }));
+    newsCache.topnews = topnews.map(item => ({ ...item, category: "topnews" }));
+    
+    newsCache.lastUpdated = new Date();
+
+    console.log("✅ News cached at", newsCache.lastUpdated.toLocaleString());
+    console.log("📊 Cache stats:", {
+      binodon: newsCache.binodon.length,
+      kheladhula: newsCache.kheladhula.length,
+      topnews: newsCache.topnews.length
+    });
+
+  } catch (error) {
+    console.error("❌ Error fetching news:", error);
+  }
 }
 
-cron.schedule("0 6 * * *", fetchAndCacheNews); // Runs daily at 6 AM
+// Cache news every 2 hours instead of once daily for more frequent updates
+cron.schedule("0 */2 * * *", fetchAndCacheNews);
 
+// Initial fetch
 fetchAndCacheNews();
 
 app.get("/news/bydate", (req, res) => {
@@ -213,13 +271,11 @@ app.get("/news/bydate", (req, res) => {
   for (const category of ["binodon", "kheladhula", "topnews"]) {
     const items = newsCache[category].filter((item) => {
       if (!item.pubDate) {
-        console.warn("⚠️ Skipping item with no pubDate:", item.title);
         return false;
       }
 
       const pubDate = new Date(item.pubDate);
       if (isNaN(pubDate)) {
-        console.warn("⚠️ Invalid pubDate:", item.pubDate);
         return false;
       }
 
@@ -230,9 +286,8 @@ app.get("/news/bydate", (req, res) => {
     filteredNews.push(...items.map((item) => ({ ...item, category })));
   }
 
-  res.json({ news: filteredNews });
+  res.json({ news: filteredNews, total: filteredNews.length });
 });
-
 
 app.get("/news/search", (req, res) => {
   const { q } = req.query;
@@ -254,7 +309,7 @@ app.get("/news/search", (req, res) => {
 
   console.log("Query:", query);
   console.log("Matched Results:", results.length);
-  res.json({ news: results });
+  res.json({ news: results, total: results.length });
 });
 
 app.get("/news/all", (req, res) => {
@@ -262,7 +317,49 @@ app.get("/news/all", (req, res) => {
   const combinedNews = Object.entries(categories).flatMap(([category, items]) =>
     items.map((item) => ({ ...item, category }))
   );
-  res.json({ lastUpdated, news: combinedNews });
+  
+  console.log("📤 Sending all news:", {
+    binodon: categories.binodon.length,
+    kheladhula: categories.kheladhula.length,
+    topnews: categories.topnews.length,
+    total: combinedNews.length
+  });
+  
+  res.json({ 
+    lastUpdated, 
+    news: combinedNews, 
+    total: combinedNews.length,
+    stats: {
+      binodon: categories.binodon.length,
+      kheladhula: categories.kheladhula.length,
+      topnews: categories.topnews.length
+    }
+  });
+});
+
+// Add a new endpoint to get news by category
+app.get("/news/category/:category", (req, res) => {
+  const { category } = req.params;
+  const { limit, offset = 0 } = req.query;
+  
+  if (!newsCache[category]) {
+    return res.status(404).json({ error: "Category not found" });
+  }
+  
+  let categoryNews = [...newsCache[category]]; // Create a copy
+  
+  // Apply limit and offset for pagination
+  if (limit) {
+    const start = parseInt(offset);
+    const end = start + parseInt(limit);
+    categoryNews = categoryNews.slice(start, end);
+  }
+  
+  res.json({ 
+    news: categoryNews, 
+    total: newsCache[category].length,
+    returned: categoryNews.length
+  });
 });
 
 app.get("/news/full", async (req, res) => {
@@ -302,6 +399,19 @@ app.get("/news/full", async (req, res) => {
     console.error("❌ Failed to fetch article:", err);
     res.status(500).json({ error: "Failed to fetch article", details: err.message });
   }
+});
+
+// Add stats endpoint for debugging
+app.get("/news/stats", (req, res) => {
+  res.json({
+    lastUpdated: newsCache.lastUpdated,
+    stats: {
+      binodon: newsCache.binodon.length,
+      kheladhula: newsCache.kheladhula.length,
+      topnews: newsCache.topnews.length,
+      total: newsCache.binodon.length + newsCache.kheladhula.length + newsCache.topnews.length
+    }
+  });
 });
 
 app.listen(port, () => {
