@@ -160,8 +160,10 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
   }
 
       if (categoryKey === "topnews") {
-      // Flatten and optionally remove duplicates by link
+      // Flatten all items from all feeds
       const flatItems = allFeeds.flat();
+
+      // Remove duplicates based on link
       const seenLinks = new Set();
       const uniqueItems = [];
 
@@ -172,8 +174,12 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
         }
       }
 
+      // Optional: sort by pubDate descending
+      uniqueItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
       return uniqueItems;
     }
+
 
   return allFeeds.flat();
 }
