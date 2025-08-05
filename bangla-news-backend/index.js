@@ -28,7 +28,6 @@ const rssFeeds = {
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss/search?q=%E0%A6%AC%E0%A6%BF%E0%A6%A8%E0%A7%8B%E0%A6%A6%E0%A6%A8&hl=bn&gl=BD&ceid=BD:bn",
     "https://www.banglanews24.com/rss/rss.xml",
-    // Add more entertainment-specific feeds
     "https://www.prothomalo.com/entertainment/rss",
     "https://www.thedailystar.net/entertainment/rss.xml"
   ],
@@ -43,7 +42,6 @@ const rssFeeds = {
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss/search?q=%E0%A6%96%E0%A7%87%E0%A6%B2%E0%A6%BE%E0%A6%A7%E0%A7%81%E0%A6%B2%E0%A6%BE&hl=bn&gl=BD&ceid=BD:bn",
     "https://www.banglanews24.com/rss/rss.xml",
-    // Add more sports-specific feeds
     "https://www.prothomalo.com/sports/rss",
     "https://www.thedailystar.net/sports/rss.xml"
   ],
@@ -58,16 +56,86 @@ const rssFeeds = {
     "https://www.risingbd.com/rss/rss.xml",
     "https://news.google.com/rss?hl=bn&gl=BD&ceid=BD:bn",
     "https://www.banglanews24.com/rss/rss.xml",
-    // Add more general news feeds
     "https://www.prothomalo.com/bangladesh/rss",
     "https://www.thedailystar.net/news/rss.xml"
   ],
+  rajniti: [
+    "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.tbsnews.net/politics/rss.xml",
+    "https://www.banglatribune.com/feed/",
+    "https://www.bd24live.com/bangla/feed/",
+    "https://www.risingbd.com/rss/rss.xml",
+    "https://news.google.com/rss/search?q=%E0%A6%B0%E0%A6%BE%E0%A6%9C%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml",
+    "https://www.prothomalo.com/politics/rss",
+    "https://www.thedailystar.net/politics/rss.xml"
+  ],
+  orthoniti: [
+    "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.tbsnews.net/economy/rss.xml",
+    "https://www.banglatribune.com/feed/",
+    "https://www.bd24live.com/bangla/feed/",
+    "https://www.risingbd.com/rss/rss.xml",
+    "https://news.google.com/rss/search?q=%E0%A6%85%E0%A6%B0%E0%A7%8D%E0%A6%A5%E0%A6%A8%E0%A7%80%E0%A6%A4%E0%A6%BF&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml",
+    "https://www.prothomalo.com/business/rss",
+    "https://www.thedailystar.net/business/rss.xml",
+    "https://www.amarbanglabd.com/feed/business"
+  ],
+  projukti: [
+    "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.tbsnews.net/scitech/rss.xml",
+    "https://www.banglatribune.com/feed/",
+    "https://www.bd24live.com/bangla/feed/",
+    "https://www.risingbd.com/rss/rss.xml",
+    "https://news.google.com/rss/search?q=%E0%A6%AA%E0%A7%8D%E0%A6%B0%E0%A6%AF%E0%A7%81%E0%A6%95%E0%A7%8D%E0%A6%A4%E0%A6%BF&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml",
+    "https://www.prothomalo.com/technology/rss",
+    "https://www.thedailystar.net/sci-tech/rss.xml"
+  ],
+  aantorjatik: [
+    "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.tbsnews.net/world/rss.xml",
+    "https://www.banglatribune.com/feed/",
+    "https://www.bd24live.com/bangla/feed/",
+    "https://www.risingbd.com/rss/rss.xml",
+    "https://news.google.com/rss/search?q=%E0%A6%86%E0%A6%A8%E0%A7%8D%E0%A6%A4%E0%A6%B0%E0%A7%8D%E0%A6%9C%E0%A6%BE%E0%A6%A4%E0%A6%BF%E0%A6%95&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml",
+    "https://www.prothomalo.com/world/rss",
+    "https://www.thedailystar.net/world/rss.xml"
+  ],
+  swasthya: [
+    "https://www.prothomalo.com/feed",
+    "https://www.thedailystar.net/frontpage/rss.xml",
+    "https://www.kalerkantho.com/rss.xml",
+    "https://www.tbsnews.net/rss.xml",
+    "https://www.banglatribune.com/feed/",
+    "https://www.bd24live.com/bangla/feed/",
+    "https://www.risingbd.com/rss/rss.xml",
+    "https://news.google.com/rss/search?q=%E0%A6%B8%E0%A7%8D%E0%A6%AC%E0%A6%BE%E0%A6%B8%E0%A7%8D%E0%A6%A5%E0%A7%8D%E0%A6%AF&hl=bn&gl=BD&ceid=BD:bn",
+    "https://www.banglanews24.com/rss/rss.xml",
+    "https://www.prothomalo.com/lifestyle/rss",
+    "https://www.thedailystar.net/health/rss.xml"
+  ]
 };
 
 let newsCache = {
   binodon: [],
   kheladhula: [],
   topnews: [],
+  rajniti: [],
+  orthoniti: [],
+  projukti: [],
+  aantorjatik: [],
+  swasthya: [],
   lastUpdated: null,
 };
 
@@ -92,6 +160,56 @@ function isDirectCategoryFeedUrl(feedUrl, categoryKey) {
       lowerUrl.includes("cricket") ||
       lowerUrl.includes("football") ||
       lowerUrl.includes("/feed/sports")
+    );
+  }
+
+  if (categoryKey === "rajniti") {
+    return (
+      lowerUrl.includes("politics") ||
+      lowerUrl.includes("rajniti") ||
+      lowerUrl.includes("political") ||
+      lowerUrl.includes("/politics/")
+    );
+  }
+
+  if (categoryKey === "orthoniti") {
+    return (
+      lowerUrl.includes("business") ||
+      lowerUrl.includes("economy") ||
+      lowerUrl.includes("orthoniti") ||
+      lowerUrl.includes("economic") ||
+      lowerUrl.includes("/business/") ||
+      lowerUrl.includes("/economy/")
+    );
+  }
+
+  if (categoryKey === "projukti") {
+    return (
+      lowerUrl.includes("technology") ||
+      lowerUrl.includes("tech") ||
+      lowerUrl.includes("scitech") ||
+      lowerUrl.includes("sci-tech") ||
+      lowerUrl.includes("projukti") ||
+      lowerUrl.includes("/technology/")
+    );
+  }
+
+  if (categoryKey === "aantorjatik") {
+    return (
+      lowerUrl.includes("world") ||
+      lowerUrl.includes("international") ||
+      lowerUrl.includes("aantorjatik") ||
+      lowerUrl.includes("/world/")
+    );
+  }
+
+  if (categoryKey === "swasthya") {
+    return (
+      lowerUrl.includes("health") ||
+      lowerUrl.includes("lifestyle") ||
+      lowerUrl.includes("swasthya") ||
+      lowerUrl.includes("/health/") ||
+      lowerUrl.includes("/lifestyle/")
     );
   }
 
@@ -125,6 +243,70 @@ function matchesCategory(item, categoryKey) {
     "champions league", "world cup", "tournament", "team", "player", "coach", "league"
   ];
 
+  const rajnitiKeywords = [
+  // Bangla
+    "রাজনীতি", "নির্বাচন", "প্রার্থী", "ভোট", "ভোটার", "ব্যালট", "সংসদ", "মন্ত্রী", "প্রধানমন্ত্রী",
+    "রাষ্ট্রপতি", "সরকার", "নেতা", "নেত্রী", "দল", "আওয়ামী লীগ", "বিএনপি", "জাতীয় পার্টি",
+    "কমিউনিস্ট", "অপসারণ", "মন্ত্রণালয়", "রাজনৈতিক", "বিরোধী দল", "জনমত", "সংবিধান",
+
+    // English
+    "politics", "election", "vote", "ballot", "candidate", "parliament", "government", "minister",
+    "prime minister", "president", "leader", "political", "party", "cabinet", "opposition",
+    "awami league", "bnp", "jamaat", "national party", "policy", "governance", "democracy", "autocracy"
+  ];
+
+  const orthonitiKeywords = [
+    // Bangla
+    "অর্থনীতি", "বিনিয়োগ", "শেয়ার বাজার", "ব্যাংক", "ঋণ", "মুদ্রা", "সুদ", "মুদ্রাস্ফীতি",
+    "রপ্তানি", "আমদানি", "ডলার", "ইউরো", "বাজেট", "জিডিপি", "বন্ড", "শেয়ার", "স্টক", "শিল্প",
+    "কৃষি", "বাণিজ্য", "মার্কেট", "মূল্য", "মূল্যস্ফীতি", "ট্যাক্স", "আয়", "ব্যয়",
+
+    // English
+    "economy", "finance", "financial", "bank", "loan", "interest", "investment", "stock", "bond",
+    "share market", "gdp", "budget", "import", "export", "trade", "currency", "inflation", "dollar",
+    "euro", "market", "business", "tax", "revenue", "expense", "monetary", "fiscal"
+  ];
+
+  const projuktiKeywords = [
+    // Bangla
+    "প্রযুক্তি", "কম্পিউটার", "মোবাইল", "ইন্টারনেট", "অ্যাপ", "সফটওয়্যার", "হার্ডওয়্যার",
+    "ওয়েবসাইট", "ডিজিটাল", "এআই", "রোবট", "হ্যাকিং", "সাইবার", "গেম", "গেমিং", "স্মার্টফোন",
+    "ইলেকট্রনিক্স", "উদ্ভাবন", "কোডিং", "প্রোগ্রামিং", "সার্ভার", "ডেটা", "চিপ", "সার্কিট",
+
+    // English
+    "technology", "computer", "software", "hardware", "mobile", "smartphone", "internet",
+    "app", "application", "website", "cyber", "digital", "robot", "ai", "machine learning",
+    "data", "electronics", "chip", "processor", "startup", "innovation", "hacking", "gaming",
+    "facebook", "google", "apple", "microsoft", "samsung", "coding", "programming"
+  ];
+
+  const aantorjatikKeywords = [
+    // Bangla
+    "আন্তর্জাতিক", "বিশ্ব", "বিশ্বরাজনীতি", "জাতিসংঘ", "চুক্তি", "যুদ্ধ", "শান্তি",
+    "কূটনীতি", "সংঘর্ষ", "সীমান্ত", "বৈদেশিক", "রাষ্ট্রদূত", "দূতাবাস", "ইউরোপ", "আমেরিকা",
+    "ভারত", "চীন", "রাশিয়া", "ইরান", "ইসরাইল", "প্যালেস্টাইন", "আফগানিস্তান", "তালেবান",
+
+    // English
+    "international", "world", "foreign", "un", "united nations", "diplomacy", "treaty",
+    "conflict", "border", "ambassador", "embassy", "america", "china", "india", "russia",
+    "iran", "israel", "afghanistan", "palestine", "taliban", "europe", "asia", "global affairs",
+    "foreign policy", "geopolitics", "war", "peace", "nato", "imf", "world bank"
+  ];
+
+  const swasthyaKeywords = [
+    // Bangla
+    "স্বাস্থ্য", "চিকিৎসা", "রোগ", "হাসপাতাল", "ডাক্তার", "নার্স", "ওষুধ", "জ্বর", "সর্দি",
+    "মাথাব্যথা", "ক্যান্সার", "ডায়াবেটিস", "হৃদরোগ", "উচ্চ রক্তচাপ", "পুষ্টি", "খাদ্য", "টিকা",
+    "করোনা", "ভ্যাকসিন", "ব্যায়াম", "স্বাস্থ্যসেবা", "অপারেশন", "শল্যচিকিৎসা", "মেডিকেল", "সংক্রমণ",
+
+    // English
+    "health", "medical", "medicine", "disease", "treatment", "hospital", "doctor", "nurse",
+    "covid", "vaccine", "fever", "cold", "headache", "cancer", "diabetes", "heart disease",
+    "blood pressure", "nutrition", "food", "exercise", "healthcare", "surgery", "clinic", "infection",
+    "pandemic", "epidemic", "mental health", "fitness"
+  ];
+
+
   if (categoryKey === "binodon") {
     return binodonKeywords.some(kw => content.includes(kw.toLowerCase()));
   }
@@ -133,19 +315,36 @@ function matchesCategory(item, categoryKey) {
     return khelaKeywords.some(kw => content.includes(kw.toLowerCase()));
   }
 
+  if (categoryKey === "rajniti") {
+    return rajnitiKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+
+  if (categoryKey === "orthoniti") {
+    return orthonitiKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+
+  if (categoryKey === "projukti") {
+    return projuktiKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+
+  if (categoryKey === "aantorjatik") {
+    return aantorjatikKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+
+  if (categoryKey === "swasthya") {
+    return swasthyaKeywords.some(kw => content.includes(kw.toLowerCase()));
+  }
+
   return true; // For topnews, include everything
 }
 
 async function fetchCategoryFeeds(feeds, categoryKey = "") {
   const allFeeds = [];
-  const maxItemsPerFeed = 50; // Increase this to get more items
+  const maxItemsPerFeed = 50;
 
   for (const feedUrl of feeds) {
     try {
-      console.log(`Fetching: ${feedUrl}`);
       const feed = await parser.parseURL(feedUrl);
-
-      // Get more items from each feed
       const feedItems = feed.items.slice(0, maxItemsPerFeed);
 
       const items = feedItems.map((item) => {
@@ -164,42 +363,36 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
             (item["media:content"] && item["media:content"]["$"]?.url) ||
             null,
           summary: item.contentSnippet || item.content || item.summary || "",
-          feedUrl: feedUrl // Add feed URL for debugging
+          feedUrl: feedUrl
         };
       });
 
       let filteredItems = items;
-
-      // Only filter if it's not a direct category feed
       const isDirectCategoryFeed = isDirectCategoryFeedUrl(feedUrl, categoryKey);
 
       if (!isDirectCategoryFeed && categoryKey !== "topnews") {
         filteredItems = items.filter((item) => matchesCategory(item, categoryKey));
       }
 
-      console.log(`${feedUrl}: ${items.length} total, ${filteredItems.length} filtered`);
-      allFeeds.push(...filteredItems); // Use spread operator to flatten immediately
+      allFeeds.push(...filteredItems);
 
     } catch (err) {
-      console.error(`⚠️  Failed to fetch feed: ${feedUrl}`, err.message);
+      // Silently continue on error
     }
   }
 
-  // Enhanced deduplication - only remove exact duplicates
+  // Enhanced deduplication
   const seenLinks = new Set();
   const seenTitles = new Set();
   const uniqueItems = [];
 
   for (const item of allFeeds) {
-    // Create a normalized title for comparison
     const normalizedTitle = item.title?.toLowerCase().trim();
     
-    // Skip if we've seen the exact same link
     if (seenLinks.has(item.link)) {
       continue;
     }
     
-    // Skip if we've seen very similar title (but be less strict)
     if (normalizedTitle && seenTitles.has(normalizedTitle)) {
       continue;
     }
@@ -218,7 +411,6 @@ async function fetchCategoryFeeds(feeds, categoryKey = "") {
     return dateB - dateA;
   });
 
-  console.log(`Final ${categoryKey} count: ${uniqueItems.length}`);
   return uniqueItems;
 }
 
@@ -226,32 +418,40 @@ async function fetchAndCacheNews() {
   console.log("🔄 Fetching news from RSS feeds…");
 
   try {
-    // Fetch all categories in parallel for better performance
-    const [binodonNews, kheladhulaNews, topnews] = await Promise.all([
+    const [binodonNews, kheladhulaNews, topnews, rajnitiNews, orthonitiNews, projuktiNews, aantorjatikNews, swasthyaNews] = await Promise.all([
       fetchCategoryFeeds(rssFeeds.binodon, "binodon"),
       fetchCategoryFeeds(rssFeeds.kheladhula, "kheladhula"),
-      fetchCategoryFeeds(rssFeeds.topnews, "topnews")
+      fetchCategoryFeeds(rssFeeds.topnews, "topnews"),
+      fetchCategoryFeeds(rssFeeds.rajniti, "rajniti"),
+      fetchCategoryFeeds(rssFeeds.orthoniti, "orthoniti"),
+      fetchCategoryFeeds(rssFeeds.projukti, "projukti"),
+      fetchCategoryFeeds(rssFeeds.aantorjatik, "aantorjatik"),
+      fetchCategoryFeeds(rssFeeds.swasthya, "swasthya")
     ]);
 
     newsCache.binodon = binodonNews.map(item => ({ ...item, category: "binodon" }));
     newsCache.kheladhula = kheladhulaNews.map(item => ({ ...item, category: "kheladhula" }));
     newsCache.topnews = topnews.map(item => ({ ...item, category: "topnews" }));
+    newsCache.rajniti = rajnitiNews.map(item => ({ ...item, category: "rajniti" }));
+    newsCache.orthoniti = orthonitiNews.map(item => ({ ...item, category: "orthoniti" }));
+    newsCache.projukti = projuktiNews.map(item => ({ ...item, category: "projukti" }));
+    newsCache.aantorjatik = aantorjatikNews.map(item => ({ ...item, category: "aantorjatik" }));
+    newsCache.swasthya = swasthyaNews.map(item => ({ ...item, category: "swasthya" }));
     
     newsCache.lastUpdated = new Date();
 
-    console.log("✅ News cached at", newsCache.lastUpdated.toLocaleString());
-    console.log("📊 Cache stats:", {
-      binodon: newsCache.binodon.length,
-      kheladhula: newsCache.kheladhula.length,
-      topnews: newsCache.topnews.length
-    });
+    const totalNews = newsCache.binodon.length + newsCache.kheladhula.length + newsCache.topnews.length + 
+                     newsCache.rajniti.length + newsCache.orthoniti.length + newsCache.projukti.length + 
+                     newsCache.aantorjatik.length + newsCache.swasthya.length;
+
+    console.log(`✅ News cached successfully - Total: ${totalNews} articles`);
 
   } catch (error) {
-    console.error("❌ Error fetching news:", error);
+    console.error("❌ Error fetching news:", error.message);
   }
 }
 
-// Cache news every 2 hours instead of once daily for more frequent updates
+// Cache news every 2 hours
 cron.schedule("0 */2 * * *", fetchAndCacheNews);
 
 // Initial fetch
@@ -265,24 +465,16 @@ app.get("/news/bydate", (req, res) => {
   if (isNaN(requestedDate)) return res.status(400).json({ error: "Invalid date format" });
 
   const targetDateString = requestedDate.toISOString().split("T")[0];
-
   const filteredNews = [];
 
-  for (const category of ["binodon", "kheladhula", "topnews"]) {
+  for (const category of ["binodon", "kheladhula", "topnews", "rajniti", "orthoniti", "projukti", "aantorjatik", "swasthya"]) {
     const items = newsCache[category].filter((item) => {
-      if (!item.pubDate) {
-        return false;
-      }
-
+      if (!item.pubDate) return false;
       const pubDate = new Date(item.pubDate);
-      if (isNaN(pubDate)) {
-        return false;
-      }
-
+      if (isNaN(pubDate)) return false;
       const pubDateString = pubDate.toISOString().split("T")[0];
       return pubDateString === targetDateString;
     });
-
     filteredNews.push(...items.map((item) => ({ ...item, category })));
   }
 
@@ -296,19 +488,16 @@ app.get("/news/search", (req, res) => {
   const query = q.toLowerCase();
   const results = [];
 
-  for (const category of ["binodon", "kheladhula", "topnews"]) {
+  for (const category of ["binodon", "kheladhula", "topnews", "rajniti", "orthoniti", "projukti", "aantorjatik", "swasthya"]) {
     const matched = newsCache[category].filter((item) => {
       return (
         item.title?.toLowerCase().includes(query) ||
         item.summary?.toLowerCase().includes(query)
       );
     });
-
     results.push(...matched.map((item) => ({ ...item, category })));
   }
 
-  console.log("Query:", query);
-  console.log("Matched Results:", results.length);
   res.json({ news: results, total: results.length });
 });
 
@@ -318,13 +507,6 @@ app.get("/news/all", (req, res) => {
     items.map((item) => ({ ...item, category }))
   );
   
-  console.log("📤 Sending all news:", {
-    binodon: categories.binodon.length,
-    kheladhula: categories.kheladhula.length,
-    topnews: categories.topnews.length,
-    total: combinedNews.length
-  });
-  
   res.json({ 
     lastUpdated, 
     news: combinedNews, 
@@ -332,12 +514,16 @@ app.get("/news/all", (req, res) => {
     stats: {
       binodon: categories.binodon.length,
       kheladhula: categories.kheladhula.length,
-      topnews: categories.topnews.length
+      topnews: categories.topnews.length,
+      rajniti: categories.rajniti.length,
+      orthoniti: categories.orthoniti.length,
+      projukti: categories.projukti.length,
+      aantorjatik: categories.aantorjatik.length,
+      swasthya: categories.swasthya.length
     }
   });
 });
 
-// Add a new endpoint to get news by category
 app.get("/news/category/:category", (req, res) => {
   const { category } = req.params;
   const { limit, offset = 0 } = req.query;
@@ -346,9 +532,8 @@ app.get("/news/category/:category", (req, res) => {
     return res.status(404).json({ error: "Category not found" });
   }
   
-  let categoryNews = [...newsCache[category]]; // Create a copy
+  let categoryNews = [...newsCache[category]];
   
-  // Apply limit and offset for pagination
   if (limit) {
     const start = parseInt(offset);
     const end = start + parseInt(limit);
@@ -396,12 +581,10 @@ app.get("/news/full", async (req, res) => {
 
     res.json({ content: article });
   } catch (err) {
-    console.error("❌ Failed to fetch article:", err);
     res.status(500).json({ error: "Failed to fetch article", details: err.message });
   }
 });
 
-// Add stats endpoint for debugging
 app.get("/news/stats", (req, res) => {
   res.json({
     lastUpdated: newsCache.lastUpdated,
@@ -409,11 +592,18 @@ app.get("/news/stats", (req, res) => {
       binodon: newsCache.binodon.length,
       kheladhula: newsCache.kheladhula.length,
       topnews: newsCache.topnews.length,
-      total: newsCache.binodon.length + newsCache.kheladhula.length + newsCache.topnews.length
+      rajniti: newsCache.rajniti.length,
+      orthoniti: newsCache.orthoniti.length,
+      projukti: newsCache.projukti.length,
+      aantorjatik: newsCache.aantorjatik.length,
+      swasthya: newsCache.swasthya.length,
+      total: newsCache.binodon.length + newsCache.kheladhula.length + newsCache.topnews.length + 
+             newsCache.rajniti.length + newsCache.orthoniti.length + newsCache.projukti.length + 
+             newsCache.aantorjatik.length + newsCache.swasthya.length
     }
   });
 });
 
 app.listen(port, () => {
-  console.log("🌐 Live backend (Railway): https://dhaka-chronicle-backend-production.up.railway.app");
+  console.log(`🌐 Server running at: http://localhost:${port}`);
 });
