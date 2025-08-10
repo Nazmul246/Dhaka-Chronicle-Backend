@@ -15,6 +15,10 @@ const parser = new Parser({
 });
 
 app.use(cors());
+app.use(express.json()); // Add this to parse JSON bodies
+
+// Click tracking storage (in production, use a database)
+let clickTracker = new Map(); // Map of newsId -> { title, category, source, clickCount, lastClicked, clicks: [] }
 
 const rssFeeds = {
   binodon: [
@@ -244,36 +248,27 @@ function matchesCategory(item, categoryKey) {
   ];
 
   const rajnitiKeywords = [
-  // Bangla
     "রাজনীতি", "নির্বাচন", "প্রার্থী", "ভোট", "ভোটার", "ব্যালট", "সংসদ", "মন্ত্রী", "প্রধানমন্ত্রী",
     "রাষ্ট্রপতি", "সরকার", "নেতা", "নেত্রী", "দল", "আওয়ামী লীগ", "বিএনপি", "জাতীয় পার্টি",
     "কমিউনিস্ট", "অপসারণ", "মন্ত্রণালয়", "রাজনৈতিক", "বিরোধী দল", "জনমত", "সংবিধান",
-
-    // English
     "politics", "election", "vote", "ballot", "candidate", "parliament", "government", "minister",
     "prime minister", "president", "leader", "political", "party", "cabinet", "opposition",
     "awami league", "bnp", "jamaat", "national party", "policy", "governance", "democracy", "autocracy"
   ];
 
   const orthonitiKeywords = [
-    // Bangla
     "অর্থনীতি", "বিনিয়োগ", "শেয়ার বাজার", "ব্যাংক", "ঋণ", "মুদ্রা", "সুদ", "মুদ্রাস্ফীতি",
     "রপ্তানি", "আমদানি", "ডলার", "ইউরো", "বাজেট", "জিডিপি", "বন্ড", "শেয়ার", "স্টক", "শিল্প",
     "কৃষি", "বাণিজ্য", "মার্কেট", "মূল্য", "মূল্যস্ফীতি", "ট্যাক্স", "আয়", "ব্যয়",
-
-    // English
     "economy", "finance", "financial", "bank", "loan", "interest", "investment", "stock", "bond",
     "share market", "gdp", "budget", "import", "export", "trade", "currency", "inflation", "dollar",
     "euro", "market", "business", "tax", "revenue", "expense", "monetary", "fiscal"
   ];
 
   const projuktiKeywords = [
-    // Bangla
     "প্রযুক্তি", "কম্পিউটার", "মোবাইল", "ইন্টারনেট", "অ্যাপ", "সফটওয়্যার", "হার্ডওয়্যার",
     "ওয়েবসাইট", "ডিজিটাল", "এআই", "রোবট", "হ্যাকিং", "সাইবার", "গেম", "গেমিং", "স্মার্টফোন",
     "ইলেকট্রনিক্স", "উদ্ভাবন", "কোডিং", "প্রোগ্রামিং", "সার্ভার", "ডেটা", "চিপ", "সার্কিট",
-
-    // English
     "technology", "computer", "software", "hardware", "mobile", "smartphone", "internet",
     "app", "application", "website", "cyber", "digital", "robot", "ai", "machine learning",
     "data", "electronics", "chip", "processor", "startup", "innovation", "hacking", "gaming",
@@ -281,12 +276,9 @@ function matchesCategory(item, categoryKey) {
   ];
 
   const aantorjatikKeywords = [
-    // Bangla
     "আন্তর্জাতিক", "বিশ্ব", "বিশ্বরাজনীতি", "জাতিসংঘ", "চুক্তি", "যুদ্ধ", "শান্তি",
     "কূটনীতি", "সংঘর্ষ", "সীমান্ত", "বৈদেশিক", "রাষ্ট্রদূত", "দূতাবাস", "ইউরোপ", "আমেরিকা",
     "ভারত", "চীন", "রাশিয়া", "ইরান", "ইসরাইল", "প্যালেস্টাইন", "আফগানিস্তান", "তালেবান",
-
-    // English
     "international", "world", "foreign", "un", "united nations", "diplomacy", "treaty",
     "conflict", "border", "ambassador", "embassy", "america", "china", "india", "russia",
     "iran", "israel", "afghanistan", "palestine", "taliban", "europe", "asia", "global affairs",
@@ -294,18 +286,14 @@ function matchesCategory(item, categoryKey) {
   ];
 
   const swasthyaKeywords = [
-    // Bangla
     "স্বাস্থ্য", "চিকিৎসা", "রোগ", "হাসপাতাল", "ডাক্তার", "নার্স", "ওষুধ", "জ্বর", "সর্দি",
     "মাথাব্যথা", "ক্যান্সার", "ডায়াবেটিস", "হৃদরোগ", "উচ্চ রক্তচাপ", "পুষ্টি", "খাদ্য", "টিকা",
     "করোনা", "ভ্যাকসিন", "ব্যায়াম", "স্বাস্থ্যসেবা", "অপারেশন", "শল্যচিকিৎসা", "মেডিকেল", "সংক্রমণ",
-
-    // English
     "health", "medical", "medicine", "disease", "treatment", "hospital", "doctor", "nurse",
     "covid", "vaccine", "fever", "cold", "headache", "cancer", "diabetes", "heart disease",
     "blood pressure", "nutrition", "food", "exercise", "healthcare", "surgery", "clinic", "infection",
     "pandemic", "epidemic", "mental health", "fitness"
   ];
-
 
   if (categoryKey === "binodon") {
     return binodonKeywords.some(kw => content.includes(kw.toLowerCase()));
@@ -454,8 +442,185 @@ async function fetchAndCacheNews() {
 // Cache news every 2 hours
 cron.schedule("0 */2 * * *", fetchAndCacheNews);
 
+// Clean old click data every day at midnight
+cron.schedule("0 0 * * *", () => {
+  const oneDayAgo = Date.now() - (24 * 60 * 60 * 1000);
+  
+  for (const [newsId, data] of clickTracker.entries()) {
+    // Remove clicks older than 7 days but keep the article if it has recent clicks
+    data.clicks = data.clicks.filter(click => click.timestamp > (Date.now() - (7 * 24 * 60 * 60 * 1000)));
+    data.clickCount = data.clicks.length;
+    
+    // Remove articles with no clicks in the last 7 days
+    if (data.clicks.length === 0) {
+      clickTracker.delete(newsId);
+    }
+  }
+  
+  console.log(`🧹 Cleaned old click data. Active tracked articles: ${clickTracker.size}`);
+});
+
 // Initial fetch
 fetchAndCacheNews();
+
+// Click tracking endpoint
+app.post("/news/track-click", (req, res) => {
+  try {
+    const { newsId, title, category, source, clickedAt, fromTrending } = req.body;
+    
+    if (!newsId || !title) {
+      return res.status(400).json({ error: "Missing required fields: newsId, title" });
+    }
+
+    const clickData = {
+      timestamp: Date.now(),
+      clickedAt: clickedAt || new Date().toISOString(),
+      fromTrending: fromTrending || false
+    };
+
+    if (clickTracker.has(newsId)) {
+      const existing = clickTracker.get(newsId);
+      existing.clicks.push(clickData);
+      existing.clickCount = existing.clicks.length;
+      existing.lastClicked = clickData.timestamp;
+      existing.title = title; // Update title in case it changed
+    } else {
+      clickTracker.set(newsId, {
+        title,
+        category: category || "unknown",
+        source: source || "unknown",
+        clickCount: 1,
+        lastClicked: clickData.timestamp,
+        firstClicked: clickData.timestamp,
+        clicks: [clickData],
+        link: newsId
+      });
+    }
+
+    res.json({ 
+      success: true, 
+      message: "Click tracked successfully",
+      clickCount: clickTracker.get(newsId).clickCount
+    });
+
+  } catch (error) {
+    console.error("Error tracking click:", error);
+    res.status(500).json({ error: "Failed to track click" });
+  }
+});
+
+// Get trending news endpoint
+app.get("/news/trending", (req, res) => {
+  try {
+    const { limit = 10, timeframe = "24h" } = req.query;
+    
+    // Calculate timeframe in milliseconds
+    let timeframeMs;
+    switch (timeframe) {
+      case "1h": timeframeMs = 60 * 60 * 1000; break;
+      case "6h": timeframeMs = 6 * 60 * 60 * 1000; break;
+      case "24h": timeframeMs = 24 * 60 * 60 * 1000; break;
+      case "7d": timeframeMs = 7 * 24 * 60 * 60 * 1000; break;
+      default: timeframeMs = 24 * 60 * 60 * 1000; // Default to 24h
+    }
+    
+    const cutoffTime = Date.now() - timeframeMs;
+    
+    // Get trending news with recent clicks
+    const trendingNews = Array.from(clickTracker.entries())
+      .map(([link, data]) => {
+        // Count recent clicks within timeframe
+        const recentClicks = data.clicks.filter(click => click.timestamp > cutoffTime);
+        
+        return {
+          link,
+          title: data.title,
+          category: data.category,
+          source: data.source,
+          clickCount: recentClicks.length,
+          totalClickCount: data.clickCount,
+          lastClicked: data.lastClicked,
+          recentClicks: recentClicks.length
+        };
+      })
+      .filter(item => item.recentClicks > 0) // Only include news with recent clicks
+      .sort((a, b) => {
+        // Sort by recent clicks first, then by total clicks, then by recency
+        if (a.recentClicks !== b.recentClicks) {
+          return b.recentClicks - a.recentClicks;
+        }
+        if (a.totalClickCount !== b.totalClickCount) {
+          return b.totalClickCount - a.totalClickCount;
+        }
+        return b.lastClicked - a.lastClicked;
+      })
+      .slice(0, parseInt(limit));
+
+    res.json({
+      news: trendingNews,
+      total: trendingNews.length,
+      timeframe,
+      generatedAt: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error("Error fetching trending news:", error);
+    res.status(500).json({ error: "Failed to fetch trending news" });
+  }
+});
+
+// Get click analytics endpoint
+app.get("/news/analytics", (req, res) => {
+  try {
+    const totalArticles = clickTracker.size;
+    const totalClicks = Array.from(clickTracker.values()).reduce((sum, data) => sum + data.clickCount, 0);
+    
+    // Category breakdown
+    const categoryStats = {};
+    for (const data of clickTracker.values()) {
+      if (!categoryStats[data.category]) {
+        categoryStats[data.category] = { articles: 0, clicks: 0 };
+      }
+      categoryStats[data.category].articles++;
+      categoryStats[data.category].clicks += data.clickCount;
+    }
+    
+    // Top sources
+    const sourceStats = {};
+    for (const data of clickTracker.values()) {
+      if (!sourceStats[data.source]) {
+        sourceStats[data.source] = { articles: 0, clicks: 0 };
+      }
+      sourceStats[data.source].articles++;
+      sourceStats[data.source].clicks += data.clickCount;
+    }
+    
+    const topSources = Object.entries(sourceStats)
+      .sort(([,a], [,b]) => b.clicks - a.clicks)
+      .slice(0, 10)
+      .map(([source, stats]) => ({ source, ...stats }));
+
+    // Recent activity (last 24 hours)
+    const last24h = Date.now() - (24 * 60 * 60 * 1000);
+    const recentClicks = Array.from(clickTracker.values())
+      .reduce((sum, data) => {
+        return sum + data.clicks.filter(click => click.timestamp > last24h).length;
+      }, 0);
+
+    res.json({
+      totalArticles,
+      totalClicks,
+      recentClicks24h: recentClicks,
+      categoryStats,
+      topSources,
+      generatedAt: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error("Error fetching analytics:", error);
+    res.status(500).json({ error: "Failed to fetch analytics" });
+  }
+});
 
 app.get("/news/bydate", (req, res) => {
   const { date } = req.query;
