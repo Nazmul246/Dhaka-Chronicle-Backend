@@ -1,5 +1,9 @@
 const Parser = require("rss-parser");
-const { isDirectCategoryFeedUrl, matchesCategory, normalizeSourceName } = require("../utils/helpers");
+const {
+  isDirectCategoryFeedUrl,
+  matchesCategory,
+  normalizeSourceName,
+} = require("../utils/helpers");
 
 const parser = new Parser({
   customFields: {
@@ -205,5 +209,5 @@ function getNewsCache() {
 
 module.exports = {
   fetchAndCacheNews,
-  getNewsCache
+  getNewsCache,
 };

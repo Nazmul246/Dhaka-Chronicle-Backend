@@ -1,4 +1,5 @@
 const express = require("express");
+const { getSiteTexts } = require("../services/adminService");
 const router = express.Router();
 const { getNewsCache } = require("../services/newsService");
 const { fetchFullArticle } = require("../services/scraperService");
@@ -195,6 +196,16 @@ router.get("/sources", (req, res) => {
   } catch (error) {
     console.error("Error fetching source stats:", error);
     res.status(500).json({ error: "Failed to fetch source statistics" });
+  }
+});
+
+// Public endpoint to fetch site configuration
+router.get("/site-config", async (req, res) => {
+  try {
+    const texts = await getSiteTexts();
+    res.json({ success: true, texts });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 
